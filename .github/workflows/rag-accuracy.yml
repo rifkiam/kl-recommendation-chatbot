@@ -1,0 +1,71 @@
+name: RAG accuracy
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  rag-accuracy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    services:
+      chroma:
+        image: chromadb/chroma:1.4.2.dev97
+        ports:
+          - 8000:8000
+        env:
+          CHROMA_SERVER_HOST: "0.0.0.0"
+          CHROMA_SERVER_PORT: "8000"
+          CHROMA_SERVER_CORS_ALLOW_ORIGINS: "*"
+
+    env:
+      CHROMA_URL: http://127.0.0.1:8000
+      RAG_ACCURACY_MIN: "0.75"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: yarn
+
+      - name: Cache embedding / ONNX downloads
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/huggingface
+            ~/.cache/transformers
+          key: ${{ runner.os }}-hf-cache-v1-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-hf-cache-v1-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Wait for Chroma
+        run: |
+          set -e
+          for i in $(seq 1 45); do
+            if curl -sf "$CHROMA_URL/api/v1/heartbeat" >/dev/null 2>&1; then
+              echo "Chroma v1 heartbeat OK"
+              exit 0
+            fi
+            if curl -sf "$CHROMA_URL/api/v2/heartbeat" >/dev/null 2>&1; then
+              echo "Chroma v2 heartbeat OK"
+              exit 0
+            fi
+            echo "waiting for Chroma ($i)..."
+            sleep 2
+          done
+          echo "Chroma did not become ready in time"
+          exit 1
+
+      - name: Seed collection
+        run: yarn seed
+
+      - name: Run RAG golden accuracy check
+        run: yarn check:rag

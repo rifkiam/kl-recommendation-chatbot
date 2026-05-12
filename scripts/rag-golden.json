@@ -1,0 +1,66 @@
+{
+  "description": "Golden retrieval checks: pass if any listed id appears in the ranked top-N (same pipeline as /api/chat: Chroma pool + rankQueryHits). Tune anyOfIds if embeddings change.",
+  "threshold": 0.75,
+  "cases": [
+    {
+      "id": "services-list",
+      "query": "apa saja layanan yang disediakan?",
+      "anyOfIds": ["2", "6", "7", "8", "9", "10", "11", "12", "13", "14", "20"]
+    },
+    {
+      "id": "services-jasa",
+      "query": "apa saja jasa yang ditawarkan perusahaan?",
+      "anyOfIds": ["2", "6", "7", "8", "9", "10", "11", "12", "13", "14", "20"]
+    },
+    {
+      "id": "location-address",
+      "query": "perusahaan berlokasi di mana?",
+      "anyOfIds": ["3"]
+    },
+    {
+      "id": "location-branch",
+      "query": "di kota mana saja ada kantor cabang?",
+      "anyOfIds": ["22"]
+    },
+    {
+      "id": "contact-support",
+      "query": "bagaimana cara menghubungi tim support?",
+      "anyOfIds": ["23"]
+    },
+    {
+      "id": "pricing-fees",
+      "query": "bagaimana biaya jasa rekrutmen dihitung?",
+      "anyOfIds": ["18"]
+    },
+    {
+      "id": "process-duration",
+      "query": "berapa lama proses rekrutmen reguler?",
+      "anyOfIds": ["16"]
+    },
+    {
+      "id": "process-fast",
+      "query": "apakah ada layanan fast hiring?",
+      "anyOfIds": ["17"]
+    },
+    {
+      "id": "company-vision",
+      "query": "apa visi perusahaan?",
+      "anyOfIds": ["1"]
+    },
+    {
+      "id": "company-founded",
+      "query": "kapan perusahaan didirikan?",
+      "anyOfIds": ["4"]
+    },
+    {
+      "id": "clients-sectors",
+      "query": "sektor apa saja yang menjadi klien?",
+      "anyOfIds": ["15"]
+    },
+    {
+      "id": "policy-guarantee",
+      "query": "berapa lama garansi penggantian kandidat?",
+      "anyOfIds": ["19"]
+    }
+  ]
+}

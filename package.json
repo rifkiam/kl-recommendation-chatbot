@@ -1,0 +1,26 @@
+{
+  "name": "chromadb-express-starter",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "ts-node src/seed/seed.ts",
+    "check:rag": "ts-node scripts/checkRagAccuracy.ts"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "chromadb": "^1.7.3",
+    "chromadb-default-embed": "^2.14.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.11.30",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.3"
+  }
+}
