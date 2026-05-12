@@ -1,66 +1,54 @@
 {
-  "description": "Golden retrieval checks: pass if any listed id appears in the ranked top-N (same pipeline as /api/chat: Chroma pool + rankQueryHits). Tune anyOfIds if embeddings change.",
+  "description": "Golden retrieval on the seeded KB (src/seed/seed.ts): pass if any listed id appears in ranked top-N (Chroma pool + rankQueryHits, same as /api/chat retrieval). Replies are synthesized with Ollama from those chunks; tune anyOfIds if you change embeddings or documents. expectReplyContainsAny is evaluated only with RAG_CHECK_OLLAMA=1.",
   "threshold": 0.75,
   "cases": [
     {
-      "id": "services-list",
-      "query": "apa saja layanan yang disediakan?",
-      "anyOfIds": ["2", "6", "7", "8", "9", "10", "11", "12", "13", "14", "20"]
+      "id": "cosmetic-label",
+      "query": "label apa yang cocok untuk produk body care dan kosmetik?",
+      "anyOfIds": ["2"],
+      "expectReplyContainsAny": ["Pearlized", "kosmetik", "body care", "tahan"]
     },
     {
-      "id": "services-jasa",
-      "query": "apa saja jasa yang ditawarkan perusahaan?",
-      "anyOfIds": ["2", "6", "7", "8", "9", "10", "11", "12", "13", "14", "20"]
+      "id": "writable-label",
+      "query": "saya butuh label yang permukaannya bisa ditulis, pilihannya apa?",
+      "anyOfIds": ["1", "3"],
+      "expectReplyContainsAny": ["ditulis", "Paper", "Synthetic", "pena"]
     },
     {
-      "id": "location-address",
-      "query": "perusahaan berlokasi di mana?",
-      "anyOfIds": ["3"]
+      "id": "transparent-packaging",
+      "query": "label transparan supaya isi produk kelihatan dari luar kemasan",
+      "anyOfIds": ["4"],
+      "expectReplyContainsAny": ["transparan", "isi produk", "Film Transparent"]
     },
     {
-      "id": "location-branch",
-      "query": "di kota mana saja ada kantor cabang?",
-      "anyOfIds": ["22"]
+      "id": "metallic-highlight",
+      "query": "label dengan efek metalik yang mencolok untuk desain produk",
+      "anyOfIds": ["6"],
+      "expectReplyContainsAny": ["Silver", "metallic", "foil", "mencolok"]
     },
     {
-      "id": "contact-support",
-      "query": "bagaimana cara menghubungi tim support?",
-      "anyOfIds": ["23"]
+      "id": "cold-oil-resistant",
+      "query": "label yang tahan dingin minyak dan air untuk produk sering di luar ruangan",
+      "anyOfIds": ["2", "3", "4", "5", "6", "7"],
+      "expectReplyContainsAny": ["tahan", "minyak", "air", "dingin"]
     },
     {
-      "id": "pricing-fees",
-      "query": "bagaimana biaya jasa rekrutmen dihitung?",
-      "anyOfIds": ["18"]
+      "id": "non-label-look",
+      "query": "ingin tampilan kemasan seperti tidak pakai label sama sekali",
+      "anyOfIds": ["5"],
+      "expectReplyContainsAny": ["Clear on Clear", "non-label", "menyatu", "jernih"]
     },
     {
-      "id": "process-duration",
-      "query": "berapa lama proses rekrutmen reguler?",
-      "anyOfIds": ["16"]
+      "id": "bright-print",
+      "query": "label yang membuat warna cetak terlihat lebih cerah",
+      "anyOfIds": ["7"],
+      "expectReplyContainsAny": ["Film White", "cerah", "warna"]
     },
     {
-      "id": "process-fast",
-      "query": "apakah ada layanan fast hiring?",
-      "anyOfIds": ["17"]
-    },
-    {
-      "id": "company-vision",
-      "query": "apa visi perusahaan?",
-      "anyOfIds": ["1"]
-    },
-    {
-      "id": "company-founded",
-      "query": "kapan perusahaan didirikan?",
-      "anyOfIds": ["4"]
-    },
-    {
-      "id": "clients-sectors",
-      "query": "sektor apa saja yang menjadi klien?",
-      "anyOfIds": ["15"]
-    },
-    {
-      "id": "policy-guarantee",
-      "query": "berapa lama garansi penggantian kandidat?",
-      "anyOfIds": ["19"]
+      "id": "natural-premium",
+      "query": "label dengan kesan natural dan premium untuk produk eksklusif",
+      "anyOfIds": ["1"],
+      "expectReplyContainsAny": ["Paper White", "natural", "premium"]
     }
   ]
 }

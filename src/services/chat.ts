@@ -5,6 +5,7 @@ import {
   rankQueryHits,
   type RankedHit,
 } from "../chroma/queryRank";
+import { synthesizeAnswerWithOllama } from "./ollama";
 
 export type { RankedHit };
 
@@ -32,4 +33,21 @@ export async function retrieveRankedChunks(
   });
 
   return rankQueryHits(results, message, topN);
+}
+
+export type RagChatResult = {
+  reply: string;
+  sources: RankedHit[];
+};
+
+/**
+ * Retrieval + Ollama: ranked chunks from Chroma, then a conversational answer.
+ */
+export async function generateRagReply(
+  message: string,
+  options?: ChatRetrievalOptions
+): Promise<RagChatResult> {
+  const sources = await retrieveRankedChunks(message, options);
+  const reply = await synthesizeAnswerWithOllama(message, sources);
+  return { reply, sources };
 }
